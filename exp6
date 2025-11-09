@@ -1,0 +1,85 @@
+UDP FILE RECEIVER (Server) — save as udp_server.py
+
+import socket
+
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server.bind(("localhost", 7000))
+print("Server ready to receive file...")
+
+# File name receive
+data, addr = server.recvfrom(1024)
+filename = data.decode()
+print("Receiving file:", filename)
+
+file = open("received_" + filename, "wb")
+
+while True:
+    data, addr = server.recvfrom(1024)
+    if data == b"EOF":
+        break
+    file.write(data)
+
+file.close()
+print("File received successfully.")
+server.close()
+
+
+UDP FILE SENDER (Client) — save as udp_client.py
+
+import socket
+
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+filename = input("Enter filename to send: ")
+client.sendto(filename.encode(), ("localhost", 7000))
+
+file = open(filename, "rb")
+data = file.read(1024)
+
+while data:
+    client.sendto(data, ("localhost", 7000))
+    data = file.read(1024)
+
+file.close()
+client.sendto(b"EOF", ("localhost", 7000))
+print("File sent successfully.")
+client.close()
+
+
+
+
+
+
+How to Run 
+
+Place both files in the same folder.
+
+Prepare any file:
+
+script.py
+
+notes.txt
+
+song.mp3
+
+video.mp4
+
+ANYTHING 
+
+Open Terminal 1:
+python udp_server.py
+
+Open Terminal 2:
+python udp_client.py
+
+When it asks:
+Enter filename to send:
+Just type the exact file name:
+notes.txt
+or
+song.mp3
+
+Output file will be created as:
+received_notes.txt
+received_song.mp3
+received_video.mp4
