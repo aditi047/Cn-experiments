@@ -1,0 +1,56 @@
+Server Code (save as file_server.py)
+
+import socket
+
+server = socket.socket()
+server.bind(('localhost', 6000))
+server.listen(1)
+
+print("Server ready... waiting for connection...")
+conn, addr = server.accept()
+print("Connected with:", addr)
+
+file = open("received_file.txt", "wb")
+
+data = conn.recv(1024)
+while data:
+    file.write(data)
+    data = conn.recv(1024)
+
+file.close()
+conn.close()
+server.close()
+print("File received successfully.")
+
+
+Client Code (save as file_client.py)
+
+import socket
+
+client = socket.socket()
+client.connect(('localhost', 6000))
+
+file = open("send_file.txt", "rb")
+
+data = file.read(1024)
+while data:
+    client.send(data)
+    data = file.read(1024)
+
+file.close()
+client.close()
+print("File sent successfully.")
+
+
+
+
+
+How to test
+
+Create a file named send_file.txt in same folder.
+
+Open Terminal 1:
+python file_server.py
+
+Open Terminal 2:
+python file_client.py
