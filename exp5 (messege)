@@ -1,0 +1,53 @@
+save the below code as server.py
+
+import socket
+
+# Create TCP socket
+server = socket.socket()
+server.bind(('localhost', 5000))
+server.listen(1)
+
+print("Server waiting for connection...")
+conn, addr = server.accept()
+print("Connected with", addr)
+
+# send message
+conn.send("Hello Client!".encode())
+
+# receive message
+data = conn.recv(1024).decode()
+print("Client says:", data)
+
+conn.close()
+server.close()
+
+
+
+save the below code as client.py
+
+import socket
+
+client = socket.socket()
+client.connect(('localhost', 5000))
+
+# receive message
+data = client.recv(1024).decode()
+print("Server says:", data)
+
+# send reply
+client.send("Hello Server!".encode())
+
+client.close()
+
+
+
+
+How to run
+
+Open two terminals:
+
+Terminal 1:
+python server.py
+
+Terminal 2:
+python client.py
