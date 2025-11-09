@@ -1,0 +1,10 @@
+go to wireshark
+etheret 
+click on "apply a filter"
+you can search 'udp' , 'tcp' etc.
+open command prompt on pc, and write 
+ping www.flipcart.com
+(there will be a result with an ip address as "103.243.32.90" or something , copy that ip address)
+go to wireshark again , and click on "apply a filter"
+we have to show an e com website , so type 'ip.addr==103.243.32.90' . click enter
+and we have the result
