@@ -1,0 +1,47 @@
+# Link State Routing Algorithm (Dijkstra) without sys module
+
+INF = 9999
+
+def dijkstra(graph, start):
+    n = len(graph)
+    visited = [False] * n
+    distance = [INF] * n
+    distance[start] = 0
+
+    for _ in range(n):
+        min_node = -1
+        for i in range(n):
+            if not visited[i] and (min_node == -1 or distance[i] < distance[min_node]):
+                min_node = i
+
+        visited[min_node] = True
+
+        for j in range(n):
+            if graph[min_node][j] != 0 and distance[j] > distance[min_node] + graph[min_node][j]:
+                distance[j] = distance[min_node] + graph[min_node][j]
+
+    return distance
+
+n = int(input("Enter number of nodes: "))
+print("Enter cost adjacency matrix (0 for no link):")
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input().split())))
+
+for i in range(n):
+    dist = dijkstra(graph, i)
+    print("Shortest path from node", i, ":", dist)
+
+OUTPUT
+Enter number of nodes: 4
+Enter cost adjacency matrix (0 for no link):
+0 2 7 0
+2 0 3 8
+7 3 0 1
+0 8 1 0
+Shortest path from node 0 : [0, 2, 5, 6]
+Shortest path from node 1 : [2, 0, 3, 4]
+Shortest path from node 2 : [5, 3, 0, 1]
+Shortest path from node 3 : [6, 4, 1, 0]
+
+=== Code Execution Successful ===
