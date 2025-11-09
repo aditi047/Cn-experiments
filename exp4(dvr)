@@ -1,0 +1,58 @@
+# Distance Vector Routing Algorithm (Bellman-Ford)
+
+# Number of nodes in the network
+n = int(input("Enter number of nodes: "))
+
+# Cost adjacency matrix
+print("Enter cost adjacency matrix (use 999 for no direct link):")
+cost = []
+for i in range(n):
+    row = list(map(int, input().split()))
+    cost.append(row)
+
+distance = cost.copy()
+
+# Apply Distance Vector Algorithm
+for k in range(n):
+    for i in range(n):
+        for j in range(n):
+            if distance[i][j] > distance[i][k] + distance[k][j]:
+                distance[i][j] = distance[i][k] + distance[k][j]
+
+print("\nDistance Vector Routing Table:")
+for i in range(n):
+    for j in range(n):
+        print("From", i, "to", j, "cost:", distance[i][j])
+    print()
+
+OUTPUT
+Enter number of nodes: 4
+Enter cost adjacency matrix (use 999 for no direct link):
+0 2 7 999
+2 0 3 8
+7 3 0 1
+999 8 1 0
+
+Distance Vector Routing Table:
+From 0 to 0 cost: 0
+From 0 to 1 cost: 2
+From 0 to 2 cost: 5
+From 0 to 3 cost: 6
+
+From 1 to 0 cost: 2
+From 1 to 1 cost: 0
+From 1 to 2 cost: 3
+From 1 to 3 cost: 4
+
+From 2 to 0 cost: 5
+From 2 to 1 cost: 3
+From 2 to 2 cost: 0
+From 2 to 3 cost: 1
+
+From 3 to 0 cost: 6
+From 3 to 1 cost: 4
+From 3 to 2 cost: 1
+From 3 to 3 cost: 0
+
+
+=== Code Execution Successful ===
